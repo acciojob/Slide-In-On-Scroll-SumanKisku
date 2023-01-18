@@ -159,38 +159,38 @@
         if (callNow) func.apply(context, args);
       };
     }
-    
-    let images;
+    debounce(reveal);
+    reveal();
+    /* my code */
+    function reveal() {
+      let images;
+      // Set things up
+      window.addEventListener("load", (event) => {
+        images = document.querySelectorAll(".slide-in");
+        createObserver();
+      }, false);
 
-    // Set things up
-    window.addEventListener("load", (event) => {
-      images = document.querySelectorAll(".slide-in");
-      console.log(images);
-      createObserver();
-    }, false);
+      function createObserver() {
+        let observer;
 
-    function createObserver() {
-      let observer;
+        let options = {
+          root: null,
+          rootMargin: "0px",
+          threshold: 0.1
+        };
 
-      let options = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.75
-      };
+        observer = new IntersectionObserver(handleIntersect, options);
 
-      observer = new IntersectionObserver(handleIntersect, options);
-      // observer.observe(images);
-      images.forEach(image => observer.observe(image));
+        images.forEach(image => observer.observe(image));
+      }
+
+      function handleIntersect(entries, observer) {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("active");
+        });
+      }
+
     }
-
-    function handleIntersect(entries, observer) {
-      entries.forEach((entry) => {
-        console.log(entry);
-        if (entry.isIntersecting) entry.target.classList.add("active");
-        // else entry.target.classList.remove("active");
-      });
-    }
-
 
   </script>
 
